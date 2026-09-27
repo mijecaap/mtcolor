@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f7f6f1">
+<meta name="description" content="Genera el código de color |cffRRGGBB para el nombre de tu tienda en Metin2 (límite 30 caracteres).">
+<title>Color de tienda · Metin2</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%23ffd700'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f7f6f1;--panel:#fff;--ink:#191817;--mut:#716f68;--line:#e6e4dc;--line2:#efeee7;--ok:#2f8f5b;--bad:#c0392b}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;
+  padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+.wrap{max-width:940px;margin:0 auto;padding:32px 20px 64px}
+header{border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:24px}
+.tag{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+h1{font-family:Newsreader,Georgia,serif;font-weight:500;font-size:28px;letter-spacing:-.3px;margin:4px 0 6px}
+h1 span{color:var(--mut);font-size:16px;font-family:Inter;font-weight:400}
+.sub{margin:0;color:var(--mut);font-size:13.5px;max-width:60ch}
+.sub code{font-family:'JetBrains Mono',monospace;font-size:12.5px;background:#efece4;border-radius:5px;padding:1px 5px;color:var(--ink)}
+.grid{display:grid;grid-template-columns:1fr 1.08fr;gap:26px;align-items:start}
+@media(max-width:760px){.grid{grid-template-columns:1fr;gap:18px}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}
+label{display:block;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin:0 0 8px}
+.colorline{display:grid;grid-template-columns:60px 1fr;gap:10px;align-items:center}
+input[type=color]{width:60px;height:46px;border:1px solid var(--line);border-radius:11px;padding:4px;background:#fff;cursor:pointer}
+input[type=text]{width:100%;height:46px;border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--ink);padding:0 13px;font:inherit;font-size:15px;outline:none;transition:border-color .15s, box-shadow .15s}
+input[type=text]:focus{border-color:var(--ink);box-shadow:0 0 0 3px rgba(25,24,23,.08)}
+#hex{font-family:'JetBrains Mono',monospace;font-size:15px;letter-spacing:.02em}
+.field{margin-bottom:18px}
+.presets{display:flex;flex-wrap:wrap;gap:8px}
+.sw{width:30px;height:30px;border-radius:50%;border:1px solid rgba(0,0,0,.15);cursor:pointer;padding:0}
+.sw:hover{transform:scale(1.08)}
+.hint{font-size:12px;color:var(--mut);line-height:1.5;margin:18px 0 0}
+.hint code{font-family:'JetBrains Mono',monospace;font-size:11.5px;background:#efece4;border-radius:4px;padding:1px 4px}
+/* result */
+.result .lbl{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin:0 0 7px}
+.prev{border-radius:12px;padding:16px 16px;margin-bottom:8px;min-height:56px;display:flex;align-items:center}
+.prev .nm{font-size:19px;font-weight:800;letter-spacing:.3px;word-break:break-word;line-height:1.25}
+.prev-dark{background:#14161b;border:1px solid #262a33}
+.prev-light{background:#fff;border:1px solid var(--line)}
+.caption{font-size:11px;color:var(--mut);margin:0 0 14px}
+.codeblock{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:stretch;margin-top:6px}
+.code{font-family:'JetBrains Mono',monospace;font-size:13.5px;background:#f3f1ea;border:1px solid var(--line);border-radius:11px;padding:12px;white-space:nowrap;overflow-x:auto;line-height:1.5;min-height:46px;display:flex;align-items:center}
+.code .p{color:var(--mut)}
+.code .n{font-weight:600}
+.code>*{flex:none}
+button.copy{background:var(--ink);color:#fff;border:0;border-radius:11px;padding:0 18px;font:inherit;font-weight:600;cursor:pointer;min-height:46px}
+button.copy:hover{opacity:.9}
+button.copy.done{background:var(--ok)}
+.meta{display:flex;justify-content:space-between;gap:12px;margin-top:12px;font-size:12.5px;font-family:'JetBrains Mono',monospace}
+.counter{color:var(--mut)}
+.status{font-weight:600}
+.status.ok{color:var(--ok)}
+.status.bad{color:var(--bad)}
+.foot{margin-top:34px;color:var(--mut);font-size:12px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="tag">Herramienta · Metin2</div>
+    <h1>Color de tienda <span>MT</span></h1>
+    <p class="sub">Genera el código <code>|cffRRGGBB</code> para colorear el nombre de tu tienda. Límite del servidor: <b>30 caracteres</b> en total.</p>
+  </header>
+
+  <div class="grid">
+    <section class="panel controls">
+      <div class="field">
+        <label for="color">Color</label>
+        <div class="colorline">
+          <input id="color" type="color" value="#ffd700" aria-label="Elegir color">
+          <input id="hex" type="text" value="#FFD700" maxlength="7" spellcheck="false" aria-label="Color hexadecimal">
+        </div>
+      </div>
+      <div class="field">
+        <label>Rápidos</label>
+        <div class="presets" id="presets"></div>
+      </div>
+      <div class="field" style="margin-bottom:0">
+        <label for="shopText">Nombre de la tienda</label>
+        <input id="shopText" type="text" value="FORJA Y MEJORAS" autocomplete="off" spellcheck="false" maxlength="40">
+      </div>
+      <p class="hint">El prefijo <code>|cffRRGGBB</code> ocupa <b>10</b> caracteres y no se ve en el juego; el resto es tu nombre (hasta <b>20</b>).</p>
+    </section>
+
+    <section class="panel result">
+      <div class="lbl">Vista previa</div>
+      <div class="prev prev-dark"><span class="nm" id="pvDark">FORJA Y MEJORAS</span></div>
+      <p class="caption">Así se ve en el juego (fondo oscuro).</p>
+      <div class="prev prev-light"><span class="nm" id="pvLight">FORJA Y MEJORAS</span></div>
+      <p class="caption">Sobre fondo claro.</p>
+
+      <div class="lbl" style="margin-top:16px">Código</div>
+      <div class="codeblock">
+        <div class="code" id="output"></div>
+        <button class="copy" id="copyBtn" type="button">Copiar</button>
+      </div>
+      <div class="meta">
+        <span class="counter" id="counter"></span>
+        <span class="status" id="status"></span>
+      </div>
+    </section>
+  </div>
+
+  <div class="foot">Pega el código completo en el campo del nombre de tu tienda.</div>
+</div>
+
+<script>
+const LIMIT = 30;
+const PRESETS = [
+  ["Oro","#FFD700"],["Rojo","#FF4444"],["Naranja","#FF9900"],["Verde","#33CC33"],
+  ["Cian","#00CCFF"],["Azul","#4C7DFF"],["Violeta","#AA55FF"],["Rosa","#FF66CC"],
+  ["Blanco","#FFFFFF"],["Gris","#B8B8B8"],
+];
+const color=document.getElementById('color'), hex=document.getElementById('hex'),
+      shopText=document.getElementById('shopText'), pvDark=document.getElementById('pvDark'),
+      pvLight=document.getElementById('pvLight'), output=document.getElementById('output'),
+      counter=document.getElementById('counter'), status=document.getElementById('status'),
+      copyBtn=document.getElementById('copyBtn');
+
+function norm(v){const x=v.trim().replace(/^#/,'');return /^[0-9a-fA-F]{6}$/.test(x)?'#'+x.toUpperCase():null;}
+function esc(s){return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+
+function render(){
+  const c = norm(hex.value) || color.value.toUpperCase();
+  if(hex.value!==c) hex.value=c;
+  if(color.value.toUpperCase()!==c) color.value=c;
+  const name = shopText.value;
+  const rgb = c.slice(1).toLowerCase();
+  const full = '|cff'+rgb+name;
+
+  pvDark.textContent = name || 'Vista previa';  pvDark.style.color = c;
+  pvLight.textContent = name || 'Vista previa'; pvLight.style.color = c;
+  output.innerHTML = '<span class="p">|cff</span><span style="color:'+c+'">'+rgb.toUpperCase()+'</span><span class="n">'+esc(name)+'</span>';
+
+  const total = full.length, rem = LIMIT-total;
+  counter.textContent = total+'/'+LIMIT+' caracteres';
+  if(total<=LIMIT){ status.className='status ok'; status.textContent = rem===0?'✓ Entra exacto':'✓ Entra · sobran '+rem; }
+  else { status.className='status bad'; status.textContent='✕ Excede por '+(total-LIMIT); }
+  output.dataset.raw = full;
+}
+
+const presetsEl = document.getElementById('presets');
+PRESETS.forEach(([n,h])=>{
+  const b=document.createElement('button'); b.type='button'; b.className='sw'; b.title=n+' '+h; b.style.background=h;
+  b.onclick=()=>{ color.value=h; hex.value=h.toUpperCase(); render(); };
+  presetsEl.appendChild(b);
+});
+
+color.addEventListener('input',()=>{ hex.value=color.value.toUpperCase(); render(); });
+hex.addEventListener('input',()=>{ const n=norm(hex.value); if(n) color.value=n; render(); });
+shopText.addEventListener('input', render);
+copyBtn.addEventListener('click', async ()=>{
+  const raw = output.dataset.raw || '';
+  try{ await navigator.clipboard.writeText(raw); }catch{ const t=document.createElement('textarea'); t.value=raw; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); }
+  copyBtn.textContent='¡Copiado!'; copyBtn.classList.add('done');
+  setTimeout(()=>{ copyBtn.textContent='Copiar'; copyBtn.classList.remove('done'); },1000);
+});
+render();
+</script>
+</body>
+</html>
